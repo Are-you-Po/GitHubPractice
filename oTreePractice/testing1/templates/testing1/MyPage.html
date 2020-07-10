@@ -1,14 +1,106 @@
 {% extends "global/Page.html" %}
 {% load otree static %}
 
+{% block global_styles  %}
+<style>
+    body {
+        text-align: center;
+    }
+    .speech-area {
+        margin: auto;
+        padding: 8px;
+        text-align: center;
+        border: 4px solid black;
+        width: 280px;
+        height: auto;
+        font-size: 40px;
+        /* display: none; */
+    }
+    .debug-info {
+        display: none;
+    }
+</style>
+{% endblock %}
+
+
 {% block title %}
     問
 {% endblock %}
 
+
 {% block content %}
+<button type="button" id="speak-button"> 請點擊播放語音 </button>
+
+<div class="speech-area" style="display:none">
+    我
+    2 週後  <br>
+    得到 <br>
+    120 元
+</div>
 
     大家好
     {% formfields %}
     {% next_button %}
 
 {% endblock %}
+
+
+{% block global_scripts %}
+<script>
+      var synth = window.speechSynthesis;
+
+      // 按下播放按鈕
+      $('#speak-button').click(function(){
+        text = $('.speech-area').text();
+        //alert('speak-button: clicked')
+        speak(text)
+    })
+
+function getRandom(x){
+    return Math.floor(Math.random()*x)+1;
+}
+
+
+function speak(){
+
+    var utterThis = new SpeechSynthesisUtterance(text)
+
+    if (synth.speaking) {
+        console.error('speechSynthesis.speaking');
+        return;
+    }
+    if (text !== '') {
+    //取得輸入的文字
+    utterThis.onend = function (event) {
+        console.log('SpeechSynthesisUtterance.onend');
+    }
+    utterThis.onerror = function (event) {
+        console.error('SpeechSynthesisUtterance.onerror');
+    }
+    //取得設定的語言
+    //var selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
+    //for(i = 0; i < voices.length ; i++) {
+    //  if(voices[i].name === selectedOption) {
+    //    utterThis.voice = voices[i];
+    //  }
+    //}
+    utterThis.lang = 'zh-TW' ;
+    //取得設定的音頻
+    utterThis.pitch = 1.0;
+    //取得設定的話速
+    utterThis.rate = getRandom(0.7,0.9);;
+    //文字轉語音
+    synth.speak(utterThis);
+    alert(text)
+  }
+}
+
+</script>
+{% endblock %}
+
+
+
+
+
+
+

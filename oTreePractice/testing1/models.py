@@ -10,17 +10,17 @@ from otree.api import (
 )
 
 
-author = 'Your name here'
+author = 'PoYueh'
 
 doc = """
-Your app description
-"""
+7/11作業"""
 
 
 class Constants(BaseConstants):
     name_in_url = 'testing1'
     players_per_group = None
     num_rounds = 1
+   
 
 
 class Subsession(BaseSubsession):
